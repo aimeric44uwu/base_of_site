@@ -1,0 +1,90 @@
+{"0":[
+    
+    {
+        "id": "0",
+        "name":"orange",
+        "priceatml": "1",
+        "img": "orange.jpg",
+        "quantityavaliable": [ 
+            {
+            "quantity":"5"
+            },
+            {
+            "quantity":"10"
+            },
+            {
+            "quantity":"15"
+            }
+            
+        ],
+
+        "description": "gouts orange"
+        
+    }
+],
+"1":[
+    {
+        "id": "1",
+        "name":"banane",
+        "priceatml": "10",
+        "img": "banane.jpg",
+        "quantityavaliable": [ 
+            {
+            "quantity":"5"
+            },
+            {
+            "quantity":"10"
+            },
+            {
+            "quantity":"15"
+            }
+            
+        ],
+        "description": "gouts banane"
+    }
+],
+"2":[
+    {
+        "id": "2",
+
+        "name":"citron",
+        "priceatml": "0.8",
+        "img": "citron.jpg",
+        "quantityavaliable": [ 
+            {
+            "quantity":"5"
+            },
+            {
+            "quantity":"10"
+            },
+            {
+            "quantity":"15"
+            }
+            
+        ],   
+        "description": "gouts citron"
+    }
+],
+"3":[
+    {
+        "id": "3",
+        "name":"pêche",
+        "priceatml": "0.9",
+        "img": "orange.jpg",
+        "quantityavaliable": [ 
+            {
+            "quantity":"5"
+            },
+            {
+            "quantity":"10"
+            },
+            {
+            "quantity":"15"
+            }
+            
+        ],
+        "description": "gouts orange"
+        
+    }
+  ]
+}
