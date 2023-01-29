@@ -1,0 +1,57 @@
+<html>
+<head>
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="script/jquery.js"></script>
+
+</head>
+<body class="navbarbody">
+  
+<div class="notlogin" id="notloggedalert" style="display: none;">
+  <h2 class="notlogintext">Vous ne pouvez pas faire ceci, vous n'êtes pas connecté mais vous pouvez vous connecter en cliquant</h2>
+  <a href="/login">
+  <div class="alertbutton raised green">
+      <div class="center"fit>ICI</div>
+    </div>
+  </a>  
+  </div>
+
+
+
+<nav >
+    <div class="container">
+
+      <ul class="navbar-left">
+          
+            <% if(logged) { %>
+                <li><a >bonjour <%=name%></a></li>
+                <li><a href="/profile">mon compte</a></li>
+            <%}else{%>
+                
+               
+                <li><a href="/login">se connecter</a></li>
+                <li><a href="/register">s'inscrire</a></li>
+
+        <%}%>
+      </ul> <!--end navbar-left -->
+  
+      <ul class="navbar-right">
+        <li><a id="cart"><i class="fa fa-shopping-cart"></i> Cart  
+                   
+            <span class="badge" id="numberofarticlenavbar"></span>
+        </a></li>
+      </ul> <!--end navbar-right -->
+    </div> <!--end container -->
+  </nav>
+  
+  
+
+        
+        
+
+
+
+</body>
+</html>
+

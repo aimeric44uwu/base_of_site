@@ -1,0 +1,43 @@
+<script src="script/jquery.js"></script>
+<script type="text/javascript">
+	$(document).ready(() => {
+
+		$("#form").submit((event) => {
+			event.preventDefault();
+
+			$.ajax({
+				type: 'POST',
+				url: '/deleteacc',
+				data: $('#form').serialize(),
+				dataType: "json",
+				success: (response) => {
+					$('#form')[0].reset();
+
+					document.getElementById("check").innerHTML = response.Success;
+					//ADD THIS CODE
+					setTimeout(() => {
+						document.getElementById("check").innerHTML = "";
+					}, 3000);
+					if (response.Success == "Success!") {
+						console.log("compte supprimé")
+						document.getElementById("aa").click();
+					};
+				},
+				error: () => {
+				}
+			})
+		});
+
+	});
+</script>
+
+<p>tapez votre adresse mail pour confirmer</p>
+<form id="form" method="post">
+
+	<input type="text" name="email" placeholder="email" required><br />
+	<input type="submit" value="Login">
+</form>
+<span id="check"></span>
+<a href="/" id="aa"></a>
+<span>retour au profil</span><a href="/profile">click here</a>
+<span>retour à la page d'acceuil </span><a href="/">click here</a>

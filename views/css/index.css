@@ -1,0 +1,152 @@
+body {
+    background-color: rgb(13, 143, 100) !important;
+
+}
+.row {
+  margin-left: -50px !important;
+  margin-left: -50px !important;
+
+}
+.notlogin {
+  height: 300px;
+  width: 500px;
+  position: absolute;
+  z-index: 5;
+  background-color: grey;
+  left: 35%;
+  top: 200px;
+  border-radius: 5px;
+}
+
+.notlogintext {
+  color: rgb(129, 40, 32);
+  margin-top: 60px;
+  margin-left: 60px;
+
+  max-width: 400px;
+}
+.alertbutton {
+  display: inline-block;
+  position: relative;
+  width: 120px;
+  height: 60px;
+  margin-top: 5px;
+  margin-left: 190px;
+  line-height: 32px;
+  border-radius: 2px;
+  background-color: #fff;
+  color: #646464;
+  
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  border-radius: 3px;
+  font-size: 16px;
+}
+li {
+  color: white;
+}
+
+
+
+.alertbutton.green {
+  background-color: #0f9d58;
+  color: #fff;
+}
+
+.alertbutton.raised {
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0.2s;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+.alertbutton.raised:active {
+  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+  transition-delay: 0s;
+}
+select.soflow,
+select.soflow-color {
+  -webkit-appearance: button;
+  -webkit-border-radius: 2px;
+  -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+  -webkit-padding-end: 20px;
+  -webkit-padding-start: 2px;
+  -webkit-user-select: none;
+  background-position: 97% center;
+  background-repeat: no-repeat;
+  border: 1px solid #AAA;
+  color: #555;
+  font-size: inherit;
+  margin-bottom: 20px;
+  overflow: hidden;
+  padding: 5px 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 150px;
+}
+select.soflow-color {
+  color: #fff;
+  background-color: #4d6592;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  padding-left: 15px;
+}
+  .show-cart li {
+    display: flex;
+  }
+  .card {
+    width: 300px;
+
+    margin-top: 50px;
+    background-color: rgb(144, 199, 173) !important;
+
+    margin-bottom: 20px;
+  }
+  .container {
+      max-width: 1200px !important;
+  }
+  .card-img-top {
+    width: 200px;
+    height: 200px;
+    align-self: center;
+  }
+
+
+
+input {
+  box-sizing: border-box;
+  font-size: 13px;
+  vertical-align: top;
+}
+
+.wrapper {
+  text-align: center;
+  position: relative;
+  height: 80px;
+  font-size: 0;
+  padding-top: 150px;
+  transform: translateY(-50%);
+}
+
+.search {
+  padding: 0 30px;
+  font-size: 18px;
+  width: 60%;
+  max-width: 400px;
+  height: 80px;
+  border: 1px solid #b3b3b3;
+  border-radius: 20px 0 0 20px;
+}
+
+.submitbigbutton {
+  cursor: pointer;
+  border: none;
+  background: url("https://www.freeiconspng.com/thumbs/arrow-icon/right-arrow-icon-27.png") no-repeat center center, #1E1E20;
+  background-size: 35px 35px;
+  border-radius: 0 20px 20px 0;
+  padding: 15px 25px;
+  display: inline-block;
+  width: 150px;
+  height: 80px;
+}
