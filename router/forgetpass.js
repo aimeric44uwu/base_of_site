@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
 
 			const user = await User.findOne({ email: req.body.email })
 
-			if (!user) return res.send({ "Success": "mail_not_found" });
+			if (!user) return res.send({ "Success": "Wrong email!" });
 			let token = await Token.findOne({ userId: user._id });
 			if (!token) {
 				token = await new Token({
@@ -30,7 +30,7 @@ router.post("/", async (req, res) => {
 			if(sendEmail(user.email, "Password reset", link) = 0){
 				res.send({ "Success": "succes" });
 			}else{
-				res.send({ "Success": "error" });
+				return res.send({ "Success": "error" });
 			}
 		}catch(error){
 			console.log(error);
@@ -39,8 +39,9 @@ router.post("/", async (req, res) => {
 	
 	
     } catch (error) {
-		res.send({ "Success": "error" });
 		console.log(error);
+		return res.send({ "Success": "error" });
+		
     }
 });
 router.get('/:userId/:token', async (req, res, next) => {
