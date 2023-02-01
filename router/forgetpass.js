@@ -27,9 +27,11 @@ router.post("/", async (req, res) => {
 			}
 	
 			const link = `${process.env.BASE_URL}/forgetpass/${user._id}/${token.token}`;
-			await sendEmail(user.email, "Password reset", link);
-	
-			res.send({ "Success": "succes" });
+			if(sendEmail(user.email, "Password reset", link) = 0){
+				res.send({ "Success": "succes" });
+			}else{
+				res.send({ "Success": "error" });
+			}
 		}catch(error){
 			return res.send("erreur lien invalide ou expiré");
 		}
