@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
 
 			const user = await User.findOne({ email: req.body.email })
 
-			if (!user) return res.send("erreur lien invalide ou expiré");
+			if (!user) return res.send({ "Success": "mail_not_found" });
 			let token = await Token.findOne({ userId: user._id });
 			if (!token) {
 				token = await new Token({
@@ -33,7 +33,8 @@ router.post("/", async (req, res) => {
 				res.send({ "Success": "error" });
 			}
 		}catch(error){
-			return res.send("erreur lien invalide ou expiré");
+			console.log(error);
+			return res.send({ "Success": "error" });
 		}
 	
 	
