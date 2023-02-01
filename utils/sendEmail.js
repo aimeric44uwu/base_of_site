@@ -6,7 +6,7 @@ const sendEmail = async (email, subject, text) => {
             service: 'gmail',
             auth: {
               user: process.env.USER,
-              pass: '5bmALz$USf-Ebjiv'
+              pass: process.env.PASSWORD
             }
           });
 
