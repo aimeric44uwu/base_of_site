@@ -16,10 +16,6 @@ userSchema = new Schema( {
         trim: true
     },
 
-    adress: {
-        type: String,
-        required: 'Your adress is required',
-    },
     phonenumber: {
         type: String,
         required: 'Your adress is required',
