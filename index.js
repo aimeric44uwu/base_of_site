@@ -11,8 +11,9 @@ require('dotenv').config();
 const MongoDBURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/mydb';
 mongoose.set('strictQuery', false);
 mongoose.connect(MongoDBURI, {
+   dbName: process.env.DB_NAME,
    useUnifiedTopology: true,
-  useNewUrlParser: true
+   useNewUrlParser: true
 });
 console.log("connexion à la base de données")
 const db = mongoose.connection;
