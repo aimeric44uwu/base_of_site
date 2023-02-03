@@ -9,7 +9,7 @@ const MongoStore = require('connect-mongo')(session);
 require('dotenv').config();
 
 const MongoDBURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/mydb';
-
+mongoose.set('strictQuery', false);
 mongoose.connect(MongoDBURI, {
   useUnifiedTopology: true,
   useNewUrlParser: true
