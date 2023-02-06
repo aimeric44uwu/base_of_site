@@ -1,0 +1,5 @@
+#!/bin/bash
+sudo rm -f *.pem
+openssl genrsa -out privkey.pem 1024
+openssl req -new -key privkey.pem -out chain.pem
+openssl x509 -req -in chain.pem -signkey privkey.pem -out cert.pem

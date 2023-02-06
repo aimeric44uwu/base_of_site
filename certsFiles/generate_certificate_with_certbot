@@ -1,0 +1,46 @@
+#!/bin/bash
+cd ../
+line=$(grep "WEBSITE_URL" .env)
+value=`echo "$line" | cut -d "=" -f 2`
+line=$(grep "OWNER_MAIL" .env)
+mail=`echo "$line" | cut -d "=" -f 2`
+cd certsFiles/generate_ssl_certbot
+path=$(pwd)
+echo 'installing node_modules needed for the server used by certbot'
+npm i > /dev/null 2>&1
+echo 'node_modules finished installing, starting the server ... '
+node index.js & 
+echo 'server started, launching certbot...'
+if [ -z "$value" ]
+then
+      echo "WEBSITE_URL is empty in the .env file"
+      exit 1
+fi
+if [ -z "$mail" ]
+then
+      echo "OWNER_MAIL is empty in the .env file"
+      exit 1
+fi
+output=$(sudo certbot certonly -m $mail -d $value --webroot -w $path --agree-tos --no-eff-email)  
+echo 'done with the server, shutting down the server ...'
+curl http://$value/end_server > /dev/null 2>&1
+echo 'removing node_modules ...'
+rm -Rf node_modules > /dev/null 2>&1
+line=$(grep "Certificate is saved at" <<< $output)
+value=`echo "$line" | cut -d ":" -f 2`
+certificate_path=`echo "$value" | sed 's:/[^/]*$::'`
+if [ -z "$certificate_path" ]
+then
+      echo "Something went wrong while creating the certificate"
+      echo "terminating the process..."
+      echo
+      exit 1
+fi
+echo "certificate correctly created"
+cd ../
+echo 'copying the needed file here ...'
+sudo rm -f *.pem > /dev/null 2>&1
+sudo cp $certificate_path/cert.pem . > /dev/null 2>&1
+sudo cp $certificate_path/privkey.pem . > /dev/null 2>&1
+sudo cp $certificate_path/chain.pem . > /dev/null 2>&1
+sudo chmod a+r * > /dev/null 2>&1
