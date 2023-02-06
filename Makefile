@@ -1,6 +1,6 @@
 
 
-all: env_file setting_up_node setting_up_npm checking_node_modules check_snapd check_certbot check_pm2 check_mongodb check_ssl start_server
+all: env_file setting_up_node setting_up_npm checking_node_modules check_snapd check_certbot check_pm2 check_mongodb check_noip generate_ssl check_ssl start_server
 
 env_file:
 	@if [ ! -f .env ]; then \
@@ -253,6 +253,68 @@ check_mongodb:
 			echo "wrong input, mongodb will not be installed"; \
 		fi;\
 	fi
+
+check_noip:
+	@if [ ! -f /usr/local/bin/noip2 ]; then \
+		echo -n "you seems that you do not have installed noip do you want to install it (y/n) : "; \
+		read installnoip; \
+		if [ -z $$installnoip ]; then \
+			echo "you didn't enter anything, noip will not be installed"; \
+		elif [ $$installnoip = "y" ]; then \
+			echo "installing noip ..."; \
+			sudo su root; \
+			cd /usr/local/src; \
+			sudo wget http://www.no-ip.com/client/linux/noip-duc-linux.tar.gz; \
+			sudo tar xzf noip-duc-linux.tar.gz; \
+			cd noip-2.1.9-1; \
+			make; \
+			make install; \
+			exit; \
+		elif [ $$installnoip = "n" ]; then \
+			echo "noip will not be installed"; \
+		else \
+			echo "wrong input, noip will not be installed"; \
+		fi; \
+	else \
+		echo "noip correctly installed"; \
+	fi
+
+
+generate_ssl:
+	@if [ "$$(grep 'ENABLE_SSL' .env | cut -d '=' -f 2)" = "true" ] && ([ ! -f certsFiles/privkey.pem ] || [ ! -f certsFiles/chain.pem ] || [ ! -f certsFiles/cert.pem ]); then \
+		echo -n "you set ENABLE_SSL to true, do you want to generate certificate (y/n) : "; \
+		read generatecertificate; \
+		if [ -z $$generatecertificate ]; then \
+			echo "you didn't enter anything, no certificate will be generated"; \
+		elif [ $$generatecertificate = "y" ]; then \
+			echo -n "do you want to generate a real certificate ( max 5 per day and you need to have previously installed certbot and snapd ) or a self-signed certificate ( 1 or 2 ) : "; \
+			read realorself; \
+			if [ -z $$realorself ]; then \
+				echo "you didn't enter anything, no certificate will be generated"; \
+			elif [ $$realorself = "1" ]; then \
+				echo "generating a real certificate ..."; \
+				echo ; \
+				cd certsFiles; \
+				./generate_certificate_with_certbot; \
+				cd ../; \
+				echo ; \
+			elif [ $$realorself = "2" ]; then \
+				echo "generating a self-signed certificate ..."; \
+				echo ; \
+				cd certsFiles; \
+				./generate_self-signed_certificate_openssl; \
+				cd ../; \
+				echo ; \
+			else \
+				echo "wrong input, no certificate will be generated"; \
+			fi;\
+		elif [ $$generatecertificate = "n" ]; then \
+			echo " no certificate will be generated"; \
+		else \
+			echo "wrong input,  no certificate will be generated"; \
+		fi;\
+	fi
+
 
 check_ssl:
 	@if [ "$$(grep 'ENABLE_SSL' .env | cut -d '=' -f 2)" = "true" ]; then \
