@@ -82,6 +82,33 @@ env_file:
 				echo "DB_NAME='$$dbname'" >> .env; \
 			fi;\
 			echo ; \
+			echo -n "do you want to use a separated api ( usefull for server with cores that have low computing power ) (y/n) : "; \
+			read externalapi; \
+			if [ -z $$externalapi ]; then \
+				echo "ENABLE_EXTERNAL_API=false" >> .env; \
+				echo "you didn't enter anything, this case is false by default"; \
+			elif [ $$externalapi = "y" ]; then \
+				echo "ENABLE_EXTERNAL_API=true" >> .env; \
+			elif [ $$externalapi = "n" ]; then \
+				echo "ENABLE_EXTERNAL_API=false" >> .env; \
+			else \
+				echo "ENABLE_EXTERNAL_API=false" >> .env; \
+				echo "wrong input, this case is false by default"; \
+			fi;\
+			echo ; \
+			if [ "$$(grep 'ENABLE_EXTERNAL_API' .env | cut -d '=' -f 2)" = "true" ]; then \
+  				echo -n "enter the name of your api url ( leave blank to use the default url : http://localhost:3000 ) : "; \
+				read apiurl; \
+				if [ -z $$apiurl ]; then \
+					echo "API_URL=" >> .env; \
+					echo "you didn't enter anything, this case will stay blank"; \
+				else \
+					echo "API_URL='$$apiurl'" >> .env; \
+				fi;\
+			else \
+				echo "API_URL=" >> .env; \
+			fi;\
+			echo ; \
 			echo -n "do you want to enable ssl, ssl will allow you to have https website but you will need to generate a ssl certificate ( y/n ) : "; \
 			read ssl_value; \
 			if [ -z $$ssl_value ]; then \
@@ -352,6 +379,21 @@ start_server:
 	elif [ $$pm2start = "y" ]; then \
 		echo "starting pm2 server ..."; \
 		pm2 start index.js; \
+		if [ "$$(grep 'ENABLE_EXTERNAL_API' .env | cut -d '=' -f 2)" = "true" ]; then \
+			echo ; \
+			echo "you activate the external api do you want to start the api script ( in this case the api url will be the same as the url ) (y/n) : ";\
+			read launchapi; \
+			if [ -z $$launchapi ]; then \
+				echo "you didn't enter anything, the api script will not start"; \
+			elif [ $$launchapi = "y" ]; then \
+				echo "launching the api script ..."; \
+				pm2 start api.js; \
+			elif [ $$launchapi = "n" ]; then \
+				echo "the api script will not start"; \
+			else \
+				echo "wrong input, the api script will not start"; \
+			fi;\
+		fi; \
 		pm2 save; \
 		echo ; \
 		echo "you can see the current online server using the command pm2 ls"; \

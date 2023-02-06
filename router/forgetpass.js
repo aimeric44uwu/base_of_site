@@ -5,9 +5,11 @@ const crypto = require("crypto");
 const Joi = require("joi");
 const express = require("express");
 const router = express.Router();
+
 router.get('/', (req, res, next) => {
 	return res.render('forget.ejs');
 });
+
 router.post("/", async (req, res) => {
     try {
         const schema = Joi.object({ email: Joi.string().email().required() });
@@ -44,6 +46,7 @@ router.post("/", async (req, res) => {
 		
     }
 });
+
 router.get('/:userId/:token', async (req, res, next) => {
 	try {
 		const user = await User.findById(req.params.userId);
@@ -62,6 +65,7 @@ router.get('/:userId/:token', async (req, res, next) => {
 
 	return res.render('newpasswd.ejs');
 });
+
 router.post("/:userId/:token", async (req, res) => {
     try {
 		var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress 

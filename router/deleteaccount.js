@@ -3,7 +3,6 @@ const router = express.Router();
 const User = require('../models/user');
 const checkAuthenticated = require("../auth/CheckAuth")
 
-
 router.get('/',checkAuthenticated, (req, res, next) => {
 	return res.render('deleteacc.ejs');
 });

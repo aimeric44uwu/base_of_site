@@ -23,7 +23,7 @@ mongoose.connect(MongoDBURI, {
    useNewUrlParser: true
 });
 
-console.log("connexion à la base de données")
+console.log("connexion à la base de données ... ")
 
 const db = mongoose.connection;
 
