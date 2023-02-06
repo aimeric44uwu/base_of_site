@@ -1,4 +1,5 @@
 
+MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 
 all: env_file setting_up_node setting_up_npm checking_node_modules check_snapd check_certbot check_pm2 check_mongodb check_noip generate_ssl check_ssl start_server
 
@@ -52,6 +53,15 @@ env_file:
 				echo "you didn't enter anything, this case will stay blank"; \
 			else \
 				echo "PORT=$$port" >> .env; \
+			fi;\
+			echo ; \
+			echo "enter the base url it will be used to generate password reset link ( don't put the last / ) it can be for example https://mysite.com or http://localhost:3000 : "; \
+			read baseurl; \
+			if [ -z $$baseurl ]; then \
+				echo "BASE_URL=http://localhost" >> .env; \
+				echo "you didn't enter anything, this case will be http://localhost by default"; \
+			else \
+				echo "BASE_URL=$$baseurl" >> .env; \
 			fi;\
 			echo ; \
 			echo -n "enter the adress of the mongodb ( by default it is : mongodb://127.0.0.1:27017/ ) but if you have a mongodb server you will need to enter the full adress that should look like that : mongodb://<username>:<password>@<adress>:<port>/ ( when you complete the adress remember to delete the < > ) : "; \
@@ -262,14 +272,13 @@ check_noip:
 			echo "you didn't enter anything, noip will not be installed"; \
 		elif [ $$installnoip = "y" ]; then \
 			echo "installing noip ..."; \
-			sudo su root; \
-			cd /usr/local/src; \
+			sudo cd /usr/local/src; \
 			sudo wget http://www.no-ip.com/client/linux/noip-duc-linux.tar.gz; \
 			sudo tar xzf noip-duc-linux.tar.gz; \
-			cd noip-2.1.9-1; \
-			make; \
-			make install; \
-			exit; \
+			sudo cd noip-2.1.9-1; \
+			sudo make; \
+			sudo make install; \
+			cd $(MKFILE_PATH); \
 		elif [ $$installnoip = "n" ]; then \
 			echo "noip will not be installed"; \
 		else \
@@ -296,14 +305,14 @@ generate_ssl:
 				echo ; \
 				cd certsFiles; \
 				./generate_certificate_with_certbot; \
-				cd ../; \
+				cd $(MKFILE_PATH); \
 				echo ; \
 			elif [ $$realorself = "2" ]; then \
 				echo "generating a self-signed certificate ..."; \
 				echo ; \
 				cd certsFiles; \
 				./generate_self-signed_certificate_openssl; \
-				cd ../; \
+				cd $(MKFILE_PATH); \
 				echo ; \
 			else \
 				echo "wrong input, no certificate will be generated"; \
