@@ -15,7 +15,7 @@ router.post('/',checkAuthenticated, (req, res, next) => {
                 res.redirect('/');
             } else {
                 console.log(data.id)
-                account.delete()
+                account.dropUser()
                 req.session.destroy((err) => {
                     if (err) {
                         return next(err);

@@ -26,6 +26,7 @@ router.post('/', checkUnAuthenticated, (req, res, next) => {
 								unique_id: c,
 								phonenumber: personInfo.phonenumber,
 								email: personInfo.email,
+								role: "normal",
 								firstName: personInfo.firstname,
 								lastName: personInfo.lastname,
 								password: personInfo.password,

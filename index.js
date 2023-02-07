@@ -12,9 +12,28 @@ const fs = require('fs');
 
 require('dotenv').config();
 
-const Port = process.env.PORT;
-const MongoDBURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/mydb';
+var Port = process.env.PORT;
 
+if(!Port) {
+  Port = 80;
+}
+
+const MongoDBURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/mydb';
+if(process.env.ENABLE_SSL == "true"){
+  if(process.env.BASE_URL.slice(0, 5) != "https"){
+    console.log("error base url is invalid or isnt https ")
+  }
+  if(process.env.API_URL.slice(0, 5) != "https"){
+    console.log("error api url is invalid or isnt https ")
+  }
+}else{
+  if(process.env.BASE_URL.slice(0, 5) != "http:"){
+    console.log("error base url is invalid or isnt http")
+  }
+  if(process.env.API_URL.slice(0, 5) != "http:"){
+    console.log("error api url is invalid or isnt http")
+  }
+}
 mongoose.set('strictQuery', false);
 
 mongoose.connect(MongoDBURI, {
@@ -34,21 +53,34 @@ db.once('open', () => {
 });
 
 
+app.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', process.env.API_URL.slice(0, -1) + ":" + process.env.API_PORT);
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  next();
+});
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
-  resave: true,
+  resave: false,
   saveUninitialized: false,
-
+  httpOnly: true,
+  secure: true,
+  ephemeral: true,
+  cookie: { maxAge: 1000 * 60 * 60 * 24 },
   store: new MongoStore({
     mongooseConnection: db
   })
 }));
 
+db.collection('user').updateOne({_id:"163dd12447fd72f7e81ec47d9"}, {$set: {role:"admin"}});
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.json());
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(__dirname + '/views'));
@@ -61,7 +93,7 @@ app.use("/register", require("./router/register"))
 app.use("/logout", require("./router/logout"))
 app.use("/forgetpass", require("./router/forgetpass"))
 app.use("/profile", require("./router/profile"))
-
+app.use("/delacc", require("./router/deleteaccount"))
 app.use("/404", require("./router/404"))
 
 app.get("*", function(req, res) {

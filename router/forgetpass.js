@@ -14,12 +14,12 @@ router.post("/", async (req, res) => {
     try {
         const schema = Joi.object({ email: Joi.string().email().required() });
         const { error } = schema.validate(req.body);
-        if (error) return res.send({ "Success": "Email incorrect!" });
+        if (error) return res.send({ "status": "error" ,"message": "wrong email"});
         try {
 
 			const user = await User.findOne({ email: req.body.email })
 
-			if (!user) return res.send({ "Success": "Wrong email!" });
+			if (!user) return res.send({ "status": "error" ,"message": "wrong email"});
 			let token = await Token.findOne({ userId: user._id });
 			if (!token) {
 				token = await new Token({
@@ -28,21 +28,21 @@ router.post("/", async (req, res) => {
 				}).save();
 			}
 	
-			const link = `${process.env.BASE_URL}/forgetpass/${user._id}/${token.token}`;
+			const link = `${process.env.BASE_URL.slice(0, -1)}forgetpass/${user._id}/${token.token}`;
 			if(sendEmail(user.email, "Password reset", link) = 0){
 				res.send({ "Success": "succes" });
 			}else{
-				return res.send({ "Success": "error" });
+				return res.send({ "status": "error" });
 			}
 		}catch(error){
 			console.log(error);
-			return res.send({ "Success": "error" });
+			return res.send({ "status": "error" });
 		}
 	
 	
     } catch (error) {
 		console.log(error);
-		return res.send({ "Success": "error" });
+		return res.send({ "status": "error" });
 		
     }
 });

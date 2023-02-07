@@ -31,21 +31,19 @@
 						setTimeout(() => {
 							document.getElementById("check").innerHTML = "";
 						}, 3000);
-						if(response.Success == "Wrong email!"){
+						if(response.status != "Success"){
+							document.getElementById("check").style.color = "red";
+						}else{
+							document.getElementById("check").style.color = "green";
+						}
+						if(response.message == "Wrong email!"){
 							document.getElementById("check").innerHTML = "l'adresse mail fournis ne correspond à aucun compte";
-
 						}
-						else if(response.Success == "succes"){
+						else if(response.message == "succes"){
 							document.getElementById("check").innerHTML = "email de reinitialisation envoyé avec succes";
-
 						}
-						else if(response.Success == "error"){
+						else if(response.message == "error"){
 							document.getElementById("check").innerHTML = "une erreur s'est produite merci de réesayer plus tard";
-
-						}
-						else if(response.Success == "Email incorrect!"){
-							document.getElementById("check").innerHTML = "l'adresse mail fournis n'est pas correcte";
-
 						}else {
 							document.getElementById("check").innerHTML = "une erreur s'est produite merci de réesayer plus tard";
 

@@ -10,12 +10,14 @@ router.get('/', (req, res, next) => {
 			return res.render('index.ejs', {
 				"logged": false,
 				"name": undefined,
+				"baseurl": process.env.API_URL.slice(0, -1)
 			});
 		} else {
 			Cart.findOne({ userId: data._id }, (err, cartofuser) => {
 				return res.render('index.ejs', {
 					"logged": true,
 					"name": data.firstName,
+					"baseurl": process.env.API_URL.slice(0, -1),
 					product: product,
 					cartvar: cartofuser
 				});

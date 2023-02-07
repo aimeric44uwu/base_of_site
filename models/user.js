@@ -11,11 +11,22 @@ userSchema = new Schema( {
     },
     email: {
         type: String,
-        unique: true,
-        required: 'Your email is required',
-        trim: true
+        unique: [true, "an account already exist on this email!"],
+        lowercase: true,
+        trim: true,
+        required: [true, "email is required"],
+        validate: {
+          validator: function (v) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+          },
+          message: '{VALUE} is not a valid email!'
+        },
     },
-
+    role: {
+        type: String,
+        enum: ["normal", "admin"],
+        required: [true, "Please specify user role"]
+    },
     phonenumber: {
         type: String,
         required: 'Your adress is required',

@@ -12,5 +12,5 @@ app.listen(80);
 
 setTimeout(() => {
    process.exit(1);
-}, 20000);
+}, 30000);
 

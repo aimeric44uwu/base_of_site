@@ -55,11 +55,11 @@ env_file:
 				echo "PORT=$$port" >> .env; \
 			fi;\
 			echo ; \
-			echo "enter the base url it will be used to generate password reset link ( don't put the last / ) it can be for example https://mysite.com or http://localhost:3000 : "; \
+			echo "enter the base url it will be used to generate password reset link ( don't forget the last / ) it can be for example https://mysite.com/ or http://localhost:3000/ : "; \
 			read baseurl; \
 			if [ -z $$baseurl ]; then \
-				echo "BASE_URL=http://localhost" >> .env; \
-				echo "you didn't enter anything, this case will be http://localhost by default"; \
+				echo "BASE_URL=http://localhost/" >> .env; \
+				echo "you didn't enter anything, this case will be http://localhost/ by default"; \
 			else \
 				echo "BASE_URL=$$baseurl" >> .env; \
 			fi;\
@@ -82,32 +82,42 @@ env_file:
 				echo "DB_NAME='$$dbname'" >> .env; \
 			fi;\
 			echo ; \
-			echo -n "do you want to use a separated api ( usefull for server with cores that have low computing power ) (y/n) : "; \
-			read externalapi; \
-			if [ -z $$externalapi ]; then \
-				echo "ENABLE_EXTERNAL_API=false" >> .env; \
-				echo "you didn't enter anything, this case is false by default"; \
-			elif [ $$externalapi = "y" ]; then \
-				echo "ENABLE_EXTERNAL_API=true" >> .env; \
-			elif [ $$externalapi = "n" ]; then \
-				echo "ENABLE_EXTERNAL_API=false" >> .env; \
-			else \
-				echo "ENABLE_EXTERNAL_API=false" >> .env; \
-				echo "wrong input, this case is false by default"; \
-			fi;\
-			echo ; \
-			if [ "$$(grep 'ENABLE_EXTERNAL_API' .env | cut -d '=' -f 2)" = "true" ]; then \
-  				echo -n "enter the name of your api url ( leave blank to use the default url : http://localhost:3000 ) : "; \
-				read apiurl; \
-				if [ -z $$apiurl ]; then \
-					echo "API_URL=" >> .env; \
-					echo "you didn't enter anything, this case will stay blank"; \
-				else \
-					echo "API_URL='$$apiurl'" >> .env; \
-				fi;\
-			else \
-				echo "API_URL=" >> .env; \
-			fi;\
+			echo "ENABLE_EXTERNAL_API=false" >> .env; \
+			# echo -n "do you want to use a separated api ( usefull for server with cores that have low computing power ) (y/n) : "; \
+			# read externalapi; \
+			# if [ -z $$externalapi ]; then \
+			# 	echo "ENABLE_EXTERNAL_API=false" >> .env; \
+			# 	echo "you didn't enter anything, this case is false by default"; \
+			# elif [ $$externalapi = "y" ]; then \
+			# 	echo "ENABLE_EXTERNAL_API=true" >> .env; \
+			# elif [ $$externalapi = "n" ]; then \
+			# 	echo "ENABLE_EXTERNAL_API=false" >> .env; \
+			# else \
+			# 	echo "ENABLE_EXTERNAL_API=false" >> .env; \
+			# 	echo "wrong input, this case is false by default"; \
+			# fi;\
+			# echo ; \
+			# if [ "$$(grep 'ENABLE_EXTERNAL_API' .env | cut -d '=' -f 2)" = "true" ]; then \
+  			# 	echo -n "enter the api adress ( if the api process is running on the same ip just put the adress of the site for example http://1.1.1.1/ or https://mysite.com/ ) don't forger the last / : "; \
+			# 	read apiurl; \
+			# 	if [ -z $$apiurl ]; then \
+			# 		echo "API_URL=" >> .env; \
+			# 		echo "you didn't enter anything, this case will stay blank"; \
+			# 	else \
+			# 		echo "API_URL='$$apiurl'" >> .env; \
+			# 	fi;\
+			# 	echo -n "enter the port used by the api ( leave blank if your api url is a http on port 80 or a https on port 443 ) : "; \
+			# 	read apiport; \
+			# 	if [ -z $$apiport ]; then \
+			# 		echo "API_PORT=" >> .env; \
+			# 		echo "you didn't enter anything, this case will stay blank"; \
+			# 	else \
+			# 		echo "API_PORT='$$apiport'" >> .env; \
+			# 	fi;\
+			# else \
+			# 	echo "API_URL=" >> .env; \
+			# 	echo "API_PORT=" >> .env; \
+			# fi;\
 			echo ; \
 			echo -n "do you want to enable ssl, ssl will allow you to have https website but you will need to generate a ssl certificate ( y/n ) : "; \
 			read ssl_value; \
@@ -323,7 +333,7 @@ generate_ssl:
 		if [ -z $$generatecertificate ]; then \
 			echo "you didn't enter anything, no certificate will be generated"; \
 		elif [ $$generatecertificate = "y" ]; then \
-			echo -n "do you want to generate a real certificate ( max 5 per day and you need to have previously installed certbot and snapd ) or a self-signed certificate ( 1 or 2 ) : "; \
+			echo -n "do you want to generate a real certificate ( max 5 per day and you need to have previously installed certbot and snapd ) or a self-signed certificate, remember that to generate a ssl certificate the server will need to use the port 80 so make sure it isn't already used ( 1 or 2 ) : "; \
 			read realorself; \
 			if [ -z $$realorself ]; then \
 				echo "you didn't enter anything, no certificate will be generated"; \
@@ -387,7 +397,7 @@ start_server:
 				echo "you didn't enter anything, the api script will not start"; \
 			elif [ $$launchapi = "y" ]; then \
 				echo "launching the api script ..."; \
-				pm2 start api.js; \
+				pm2 start api/api.js; \
 			elif [ $$launchapi = "n" ]; then \
 				echo "the api script will not start"; \
 			else \

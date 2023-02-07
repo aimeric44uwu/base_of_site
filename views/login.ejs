@@ -17,7 +17,7 @@
         
               $.ajax({
                 type: 'POST',
-                url: '/login',
+                url: '<%=baseurl%>/login',
                 data: $('#form').serialize(),
                 dataType: "json",
                 success: (response) => {
