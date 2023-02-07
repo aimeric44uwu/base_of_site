@@ -8,7 +8,7 @@ const https = require('https');
 const http = require('http');
 const fs = require('fs');
 
-require('dotenv').config();
+require('dotenv').config({ path: '../.env' });
 
 var Port = process.env.API_PORT;
 if(!Port) {
@@ -57,24 +57,22 @@ app.use(session({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.use("/", require("./api/index"))
-app.use("/login", require("./login-api"))
-// app.use("/register", require("./api/register"))
-// app.use("/logout", require("./api/logout"))
-// app.use("/forgetpass", require("./api/forgetpass"))
-// app.use("/profile", require("./api/profile"))
+app.use(express.static('../public'));
 
-// app.use("/404", require("./api/404"))
 
-// app.get("*", function(req, res) {
-//   res.redirect("/404");
-// });
+app.use("/", require("./index-api"))
+app.get('/404', async (req, res, next) => {
+	return res.status(404);
+})
+app.get("*", function(req, res) {
+  res.redirect("/404");
+});
 
 if (process.env.ENABLE_SSL == 'true') {
 
-    const privateKey = fs.readFileSync(__dirname + '/certsFiles/privkey.pem', 'utf8');
-    const certificate = fs.readFileSync(__dirname + '/certsFiles/cert.pem', 'utf8');
-    const ca = fs.readFileSync(__dirname + '/certsFiles/chain.pem', 'utf8');
+    const privateKey = fs.readFileSync('../certsFiles/privkey.pem', 'utf8');
+    const certificate = fs.readFileSync('../certsFiles/cert.pem', 'utf8');
+    const ca = fs.readFileSync('../certsFiles/chain.pem', 'utf8');
   
     const credentials = {
       key: privateKey,

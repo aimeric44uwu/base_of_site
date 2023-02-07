@@ -46,15 +46,6 @@ env_file:
 				echo "PASSWORD=$$mail_password" >> .env; \
 			fi;\
 			echo ; \
-			echo "enter the port that the site will use ( note that if your site is a http i recommand you to use the port 80 but if yout website is a https i recommand you to use the port 443 ) : "; \
-			read port; \
-			if [ -z $$port ]; then \
-				echo "PORT=" >> .env; \
-				echo "you didn't enter anything, this case will stay blank"; \
-			else \
-				echo "PORT=$$port" >> .env; \
-			fi;\
-			echo ; \
 			echo "enter the base url it will be used to generate password reset link ( don't forget the last / ) it can be for example https://mysite.com/ or http://localhost:3000/ : "; \
 			read baseurl; \
 			if [ -z $$baseurl ]; then \
@@ -62,6 +53,15 @@ env_file:
 				echo "you didn't enter anything, this case will be http://localhost/ by default"; \
 			else \
 				echo "BASE_URL=$$baseurl" >> .env; \
+			fi;\
+			echo ; \
+						echo "enter the port that the site will use ( note that if your site is a http i recommand you to use the port 80 but if yout website is a https i recommand you to use the port 443 ) : "; \
+			read port; \
+			if [ -z $$port ]; then \
+				echo "PORT=" >> .env; \
+				echo "you didn't enter anything, this case will stay blank"; \
+			else \
+				echo "PORT=$$port" >> .env; \
 			fi;\
 			echo ; \
 			echo -n "enter the adress of the mongodb ( by default it is : mongodb://127.0.0.1:27017/ ) but if you have a mongodb server you will need to enter the full adress that should look like that : mongodb://<username>:<password>@<adress>:<port>/ ( when you complete the adress remember to delete the < > ) : "; \

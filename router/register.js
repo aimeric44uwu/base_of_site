@@ -19,9 +19,8 @@ router.post('/', checkUnAuthenticated, (req, res, next) => {
 			if (personInfo.firstName == undefined || personInfo.firstName == "undefined" || personInfo.firstName == true || personInfo.firstName == "true" || personInfo.firstName == false || personInfo.firstName == "false")
 				User.findOne({ email: personInfo.email }, (err, data) => {
 					if (!data) {
-						let c;
+						let c = uuidv4();;
 						User.findOne({}, (err, data) => {
-							c = uuidv4();
 							let newPerson = new User({
 								unique_id: c,
 								phonenumber: personInfo.phonenumber,
@@ -40,7 +39,8 @@ router.post('/', checkUnAuthenticated, (req, res, next) => {
 								}
 							});
 						}).sort({ _id: -1 }).limit(1);
-						res.send({ "status": "Success", "message": "Vous êtes enregistré vous pouvez mainenant vous connecter." });
+						req.session.userId = c;
+						res.send({ "status": "Success", "message": "Vous vous vous êtes enregistré avec succes." });
 					} else {
 						res.send({ "status": "error", "message": "Cet adresse mail est déjà utilisé pour un autre compte." });
 					}

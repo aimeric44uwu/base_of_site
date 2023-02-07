@@ -1,100 +1,43 @@
 <html>
-    <head>
-      <link rel="stylesheet" href="css/loginandregister.css">
+<head>
+  <link rel="stylesheet" href="css/loginandregister.css">
+  <script src="script/jquery.js"></script>
+  <script src="js/register.js"></script>
+</head>
+<body class="align">
+  <div class="grid">
+    <p style="color: #eee;" class="text--center">
+      S'inscrire</p>
+    <form id="form1" class="form login">
+      <div class="form__field">
+        <input autocomplete="email" type="text" name="email" class="form__input" placeholder="email"
+          pattern="[-!#$%&'*+\/0-9=?ก-๙A-Z^_a-z`{|}~](\.?[-!#$%&'*+\/0-9=?ก-๙A-Z^_a-z`{|}~])*@[ก-๙a-zA-Z0-9](-*\.?[ก-๙a-zA-Z0-9])*\.[ก-๙a-zA-Z](-?[ก-๙a-zA-Z0-9])+$"
+          required>
+      </div>
+      <div class="form__field">
+        <input type="text" name="firstname" class="form__input" placeholder="prénom" required>
+      </div>
+      <div class="form__field">
+        <input type="text" name="lastname" class="form__input" placeholder="nom de famille" required>
+      </div>
+      <div class="form__field">
+        <input type="number" name="phonenumber" class="form__input" placeholder="numéro de téléphone" required>
+      </div>
+      <div class="form__field">
+        <input type="password" name="password" class="form__input" placeholder="mot de passe" required>
+      </div>
+      <div class="form__field">
 
-<script src="script/jquery.js"></script>
-
-<script type="text/javascript">
-	$(document).ready(() => {
-
-		$("#form1").submit((event) => {
-			event.preventDefault();
-
-			$.ajax({
-				type: 'POST',
-				url: '/register',
-				data: $('#form1').serialize(),
-				dataType: "json",
-				success: (response) => {
-					$('#form1')[0].reset();
-					if(response.status != "Success"){
-						document.getElementById("check").style.color = "red";
-
-					}else{
-						document.getElementById("check").style.color = "green";
-
-					}
-					document.getElementById("check").innerHTML = response.message;
-
-					//ADD THIS CODE
-					setTimeout(() => {
-						document.getElementById("check").innerHTML = "";
-						document.getElementById("check").style.color = "";
-
-					}, 6000);
-					if (response.status == "Success") {
-                                        setTimeout(() => {
-                                                document.getElementById("aa").click();
-
-                                        }, 3000);
-					};
-				},
-				error: () => {
-				}
-			})
-		});
-	});
-</script>
-        
-    </head>
-    <body class="align">
-
-        <div class="grid">
-			<p style="color: #eee;" class="text--center">
-				S'inscrire</p>
-
-          <form id="form1" class="form login">
-      
-            <div class="form__field">
-
-              <input autocomplete="email" type="text" name="email" class="form__input" placeholder="email" 		pattern="[-!#$%&'*+\/0-9=?ก-๙A-Z^_a-z`{|}~](\.?[-!#$%&'*+\/0-9=?ก-๙A-Z^_a-z`{|}~])*@[ก-๙a-zA-Z0-9](-*\.?[ก-๙a-zA-Z0-9])*\.[ก-๙a-zA-Z](-?[ก-๙a-zA-Z0-9])+$"
-              required>
-            </div>
-            <div class="form__field">
-
-                <input type="text" name="firstname" class="form__input" placeholder="prénom" required>
-              </div>
-              <div class="form__field">
-
-                <input type="text" name="lastname" class="form__input" placeholder="nom de famille" required>
-              </div>
-              <div class="form__field">
-
-                <input type="number" name="phonenumber" class="form__input" placeholder="numéro de téléphone" required>
-              </div>
-              <div class="form__field">
-
-
-                <input type="password" name="password" class="form__input" placeholder="mot de passe" required>
-              </div>
-            <div class="form__field">
-
-              <input type="password" name="passwordConf" class="form__input" placeholder="confirmer le mot de passe" required>
-            </div>
-      
-            <div class="form__field">
-              <input type="submit" value="s'inscrire">
-            </div>
-      
-          </form>
-          <p id="check" style="color: #eee !important;" class="text--center"></p>
-          <a href="/login" id="aa"></a>
-          <p class="text--center">Vous avez déjà un compte ? <a href="/login">se connecter maintenant</a></p>
-          <p class="text--center">vous avez changé d'avis ? <a href="/">retour au menu</a></p>
-
-        </div>
-      
-        
-      
-      </body>
+        <input type="password" name="passwordConf" class="form__input" placeholder="confirmer le mot de passe" required>
+      </div>
+      <div class="form__field">
+        <input type="submit" value="s'inscrire">
+      </div>
+    </form>
+    <p id="check" style="color: #eee !important;" class="text--center"></p>
+    <a href="/login" id="aa"></a>
+    <p class="text--center">Vous avez déjà un compte ? <a href="/login">se connecter maintenant</a></p>
+    <p class="text--center">vous avez changé d'avis ? <a href="/">retour au menu</a></p>
+  </div>
+</body>
 </html>

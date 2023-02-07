@@ -132,6 +132,7 @@
   
   .form input[type="password"],
   .form input[type="text"],
+  .form input[type="number"],
   .form input[type="submit"] {
     width: 100%;
   }
@@ -151,7 +152,7 @@
   /* modules/login.css */
   
   :root {
-    --loginBorderRadus: 0.25rem;
+    --loginBorderRadus: 0.6rem;
     --loginColor: #eee;
   
     --loginInputBackgroundColor: #3b4148;
@@ -172,6 +173,7 @@
   .login label,
   .login input[type="text"],
   .login input[type="password"],
+  .login input[type="number"],
   .login input[type="submit"] {
     border-radius: 0.25rem;
     border-radius: var(--loginBorderRadus);
@@ -188,6 +190,7 @@
   }
   
   .login input[type="password"],
+  .login input[type="number"],
   .login input[type="text"] {
     background-color: #3b4148;
     background-color: var(--loginInputBackgroundColor);
@@ -197,6 +200,8 @@
   
   .login input[type="password"]:focus,
   .login input[type="password"]:hover,
+  .login input[type="number"]:focus,
+  .login input[type="number"]:hover,
   .login input[type="text"]:focus,
   .login input[type="text"]:hover {
     background-color: #434a52;

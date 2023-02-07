@@ -1,88 +1,31 @@
 <html>
     <head>
       <link rel="stylesheet" href="css/loginandregister.css">
-
         <script src="script/jquery.js"></script>
-
-        <style>
-
-
-        </style>
-        <script src="script/jquery.js"></script>
-        <script type="text/javascript">
-          $(document).ready(() => {
-        
-            $("#form").submit((event) => {
-              event.preventDefault();
-        
-              $.ajax({
-                type: 'POST',
-                url: '<%=baseurl%>/login',
-                data: $('#form').serialize(),
-                dataType: "json",
-                success: (response) => {
-                  $('#form')[0].reset();
-				  
-				  if(response.status != "Success"){
-						document.getElementById("check").style.color = "red";
-
-					}else{
-						document.getElementById("check").style.color = "green";
-
-					}
-					document.getElementById("check").innerHTML = response.message;
-
-					//ADD THIS CODE
-					setTimeout(() => {
-						document.getElementById("check").innerHTML = "";
-						document.getElementById("check").style.color = "";
-
-					}, 6000);
-					if (response.status == "Success") {
-						document.getElementById("aa").click();
-					};
-                },
-                error: () => {
-                }
-              })
-            });
-        
-          });
-        </script>
-        
+        <script src="js/login.js"></script>
     </head>
     <body class="align">
-
-        <div class="grid">
-			<p style="color: #eee !important;" class="text--center">
-				se connecter</p>
-          <form id="form" class="form login">
-      
-            <div class="form__field">
-
-              <input autocomplete="email" type="text" name="email" class="form__input" placeholder="email" 		pattern="[-!#$%&'*+\/0-9=?ก-๙A-Z^_a-z`{|}~](\.?[-!#$%&'*+\/0-9=?ก-๙A-Z^_a-z`{|}~])*@[ก-๙a-zA-Z0-9](-*\.?[ก-๙a-zA-Z0-9])*\.[ก-๙a-zA-Z](-?[ก-๙a-zA-Z0-9])+$"
+      <div class="grid">
+        <p style="color: #eee !important;" class="text--center">
+          se connecter</p>
+        <form id="form" class="form login">
+          <div class="form__field">
+            <input autocomplete="email" type="text" name="email" class="form__input" placeholder="email"
+              pattern="[-!#$%&'*+\/0-9=?ก-๙A-Z^_a-z`{|}~](\.?[-!#$%&'*+\/0-9=?ก-๙A-Z^_a-z`{|}~])*@[ก-๙a-zA-Z0-9](-*\.?[ก-๙a-zA-Z0-9])*\.[ก-๙a-zA-Z](-?[ก-๙a-zA-Z0-9])+$"
               required>
-            </div>
-      
-            <div class="form__field">
-
-              <input type="password" name="password" class="form__input" placeholder="mot de passe" required>
-            </div>
-      
-            <div class="form__field">
-              <input type="submit" value="se connecter">
-            </div>
-      
-          </form>
-          <p id="check" style="color: #eee;" class="text--center"></p>
-          <a href="/" id="aa"></a>
-          <p class="text--center">vous n'avez pas de compte ? <a href="/register">s'inscrire maintenant</a></p>
-            <p class="text--center">mot de passe oublié ? <a href="/forgetpass">réinitialiser le maintent</a></p>
-            <p class="text--center">vous avez changé d'avis ? <a href="/">retour au menu</a></p>
-
-        </div>
-      
-        
-      
-      </body>
+          </div>
+          <div class="form__field">
+            <input type="password" name="password" class="form__input" placeholder="mot de passe" required>
+          </div>
+          <div class="form__field">
+            <input type="submit" value="se connecter">
+          </div>
+        </form>
+        <p id="check" style="color: #eee;" class="text--center"></p>
+        <a href="/" id="aa"></a>
+        <p class="text--center">vous n'avez pas de compte ? <a href="/register">s'inscrire maintenant</a></p>
+        <p class="text--center">mot de passe oublié ? <a href="/forgetpass">réinitialiser le maintent</a></p>
+        <p class="text--center">vous avez changé d'avis ? <a href="/">retour au menu</a></p>
+      </div>
+    </body>
 </html>

@@ -8,56 +8,10 @@
 	</script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="./css/main.css">
-
-	<script type="text/javascript">
-		$(document).ready(() => {
-
-			$("#form2").submit((event) => {
-
-				event.preventDefault();
-                url = window.location.href
-				$.ajax({
-					type: 'POST',
-					url: url,
-					data: $('#form2').serialize(),
-					dataType: "json",
-					success: (response) => {
-						//alert("a");
-						//console.log(response.Success);
-						$('#form2')[0].reset();
-						//alert("abc");
-						document.getElementById("check").innerHTML = response.Success;
-
-						setTimeout(() => {
-							document.getElementById("check").innerHTML = "";
-						}, 3000);
-						if (response.Success == "error invalid link") {
-                            document.getElementById("check").innerHTML = "erreur lien invalide ou expiré";
-
-						}else if(response.Success == "succes"){
-							document.getElementById("check").innerHTML = "mot de passe changé avec succès";
-
-						}
-						else if(response.Success == "error"){
-							document.getElementById("check").innerHTML = "une erreur s'est produite merci de réesayer plus tard";
-
-						}
-						else {
-							document.getElementById("check").innerHTML = "une erreur s'est produite merci de réesayer plus tard";
-
-						}
-					},
-					error: () => {
-					}
-				})
-			});
-
-		});
-	</script>
+	<script src="js/newpasswd.js"></script>
 </head>
 
 <body>
-
 	<div class="col-md-4 col-md-offset-4 form-card" style="margin-top: 100px;">
 		<div>
 			<p>Change Password</p>
@@ -76,7 +30,6 @@
 		<div id="LangTable"><span>Go back to </span><a href="/register">Register</a> or <a href="/login">Login</a>
 		</div>
 	</div>
-
 </body>
 
 </html>

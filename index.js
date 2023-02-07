@@ -9,6 +9,8 @@ const https = require('https');
 const http = require('http');
 const MongoStore = require('connect-mongo')(session);
 const fs = require('fs');
+const session_db = require('./models/user');
+var MongoClient = require('mongodb').MongoClient;
 
 require('dotenv').config();
 
@@ -48,9 +50,11 @@ const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
 
-db.once('open', () => {
+db.once('open', async () => {
   console.log("connexion avec la base de données établie")
+
 });
+
 
 
 app.use(function (req, res, next) {
@@ -73,8 +77,6 @@ app.use(session({
     mongooseConnection: db
   })
 }));
-
-db.collection('user').updateOne({_id:"163dd12447fd72f7e81ec47d9"}, {$set: {role:"admin"}});
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -99,6 +101,7 @@ app.use("/404", require("./router/404"))
 app.get("*", function(req, res) {
   res.redirect("/404");
 });
+
 
 if (process.env.ENABLE_SSL == 'true') {
 

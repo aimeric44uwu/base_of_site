@@ -10,14 +10,18 @@ router.get('/', (req, res, next) => {
 			return res.render('index.ejs', {
 				"logged": false,
 				"name": undefined,
-				"baseurl": process.env.API_URL.slice(0, -1)
+				"baseurl": (process.env.ENABLE_EXTERNAL_API == "true") ? 
+				process.env.API_URL.slice(0, -1) + ":" + process.env.API_PORT
+				 : process.env.BASE_URL.slice(0, -1) + ":" + process.env.PORT,
 			});
 		} else {
 			Cart.findOne({ userId: data._id }, (err, cartofuser) => {
 				return res.render('index.ejs', {
 					"logged": true,
 					"name": data.firstName,
-					"baseurl": process.env.API_URL.slice(0, -1),
+					"baseurl": (process.env.ENABLE_EXTERNAL_API == "true") ? 
+					process.env.API_URL.slice(0, -1) + ":" + process.env.API_PORT
+					 : process.env.BASE_URL.slice(0, -1) + ":" + process.env.PORT,
 					product: product,
 					cartvar: cartofuser
 				});
@@ -26,7 +30,6 @@ router.get('/', (req, res, next) => {
 		}
 	});
 });
-
 router.post('/', async (req, res, next) => {
 	User.findOne({ unique_id: req.session.userId }, async (err, data) => {
 		if (!data) {
@@ -83,31 +86,7 @@ router.get('/api/Cartitem', async (req, res, next) => {
 	})
 })
 
-router.get('/api/productitem', async (req, res, next) => {
-	return res.status(201).send(product);
-})
-
-router.post('/api/productitem', async (req, res, next) => {
-	try {
-		var myArray = {}
-		var k = 0;
-		for (var i = 0; i < Object.keys(product).length; i++) {
-			if (product[i][0].name == req.body.searchedelement) {
-				myArray = '{"0":' + JSON.stringify(product[i]) + ''
-			}
-		}
-		for (var j = 0; j < Object.keys(product).length; j++) {
-			if (product[j][0].name != req.body.searchedelement) {
-				k++
-				myArray += ',"' + k + '":' + JSON.stringify(product[j]) + ''
-			}
-		}
-		myArray += '}'
-		JSON.parse(myArray)
-		return res.status(201).send(myArray);
-	} catch (e) {
-		return res.status(201).send(product);
-	}
-})
+if(process.env.ENABLE_EXTERNAL_API != "true")
+	router.use("/", require("../api/index-api"))
 
 module.exports = router;
