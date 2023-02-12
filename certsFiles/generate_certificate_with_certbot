@@ -4,11 +4,6 @@ if ! dpkg -s nodejs | grep Status | grep -q installed > /dev/null 2>&1; then
       echo "terminating the process..."
       exit 1
 fi
-if ! dpkg -s certbot | grep Status | grep -q installed > /dev/null 2>&1; then
-      echo "error certbot isn't installed"
-      echo "terminating the process..."
-      exit 1
-fi
 if sudo lsof -i -P -n | grep ":80" > /dev/null 2>&1; then
       echo "error port 80 is already used"
       echo "terminating the process..."

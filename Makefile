@@ -133,7 +133,7 @@ env_file:
 				echo "wrong input, this case is false by default"; \
 			fi;\
 			echo ; \
-			echo -n "enter the website url ( usefull only if you activate ssl, it will be used to generate a ssl certificate thanks to certbot ) : "; \
+			echo -n "enter the website url ( usefull only if you activate ssl, it will be used to generate a ssl certificate thanks to certbot ) don't put the http:// or https:// and don't put the last / : "; \
 			read website_url; \
 			if [ -z $$website_url ]; then \
 				echo "WEBSITE_URL=" >> .env; \
@@ -207,7 +207,7 @@ setting_up_npm:
 
 checking_node_modules:
 	@if [ ! -d node_modules ]; then \
-    	echo "the node_modules are still not installed do you want to install them ? : "; \
+    	echo "the node_modules are still not installed do you want to install them ? (y/n) : "; \
 		read installnodemodules; \
 		if [ -z $$installnodemodules ]; then \
 			echo "you didn't enter anything, the node_modules will not be installed"; \
@@ -270,7 +270,7 @@ check_pm2:
 			echo "you didn't enter anything, pm2 will not be installed"; \
 		elif [ $$installpm2 = "y" ]; then \
 			echo "installing pm2 ..."; \
-			npm install pm2 -g; \
+			sudo npm install pm2 -g; \
 		elif [ $$installpm2 = "n" ]; then \
 			echo "pm2 will not be installed"; \
 		else \
